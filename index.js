@@ -53,11 +53,12 @@ var permission = function (roles) {
       }
     }
 
-    if (req.isAuthenticated() && !req.user[role]) { throw new Error("User doesn't have property named: " + 
+    // In this case, user.role is the obj to check
+    if (req.isAuthenticated() && !req.user.role === role) { throw new Error("User doesn't have property named: " + 
                                                        role + ". See Advantage Start in docs") }
     
     if (req.isAuthenticated()) {
-      if (!roles || roles.indexOf(req.user[role]) > -1){
+      if (!roles || roles.indexOf(req.user.role) > -1){
         after(req, res, next, permission.AUTHORIZED);
       } else {
         after(req, res, next, permission.NOT_AUTHORIZED);
